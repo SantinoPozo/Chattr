@@ -9,6 +9,10 @@ Este es un proyecto base en PHP pensado para que los alumnos trabajen con una ap
 
 El objetivo es comprender cómo se organiza un proyecto PHP con separación de vistas, controladores y configuración.
 
+## Alumnos
+- Pozo Santino
+- Castro Lucio
+
 ## Requisitos previos
 
 - PHP instalado (versión 7.4+ recomendada).
