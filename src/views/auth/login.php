@@ -22,7 +22,7 @@ include('../_layouts/auth.layout.php');
   <button type="submit" class="btn btn-primary w-100">Ingresar</button>
 </form>
 
-<br />
+<br/>
 
 <div class="text-center">
   <p class="text-muted small">¿No tienes una cuenta? <a href="/src/views/auth/register.php">¡Registrate ahora!</a></p>
