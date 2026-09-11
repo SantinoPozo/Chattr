@@ -19,26 +19,28 @@ try {
   $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
   
   $stmt->execute([
-    'email'    => $data['email'],
+    'email'    => $data['email']
   ]);
   
-  if (false !== ($row = $stmt->fetchColumn())){
+  if ($row = $stmt->fetchColumn()){
     $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-
+  var_dump($row);
   $pass_igual = password_verify($data['password'], $row['password']);
+  echo $data['password'];
+  echo $pass_igual;
   if($pass_igual){
     $_SESSION['user'] = [
-      'id'    => $pdo->lastInsertId(),
+      'id'    => $row['id'],
       'name'  => $row['name'],
       'email' => $data['email'],
     ];
     echo "test";
-    header('Location: /src/views/index.php');
+    /*header('Location: /src/views/index.php');
     exit;
   } else {
     header('Location: /src/views/auth/login.php');
-    exit;
+    exit;*/
   }
   // Cargamos $_SESSION['user'], para poder pasar al index
 } catch (PDOException $e) {
