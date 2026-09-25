@@ -21,10 +21,9 @@ try {
   $stmt->execute([
     'email'    => $data['email']
   ]);
-  
-  if ($row = $stmt->fetchColumn()){
-    $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  }
+
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
   var_dump($row);
   $pass_igual = password_verify($data['password'], $row['password']);
   echo $data['password'];
@@ -36,11 +35,11 @@ try {
       'email' => $data['email'],
     ];
     echo "test";
-    /*header('Location: /src/views/index.php');
+    header('Location: /src/views/index.php');
     exit;
   } else {
     header('Location: /src/views/auth/login.php');
-    exit;*/
+    exit;
   }
   // Cargamos $_SESSION['user'], para poder pasar al index
 } catch (PDOException $e) {

@@ -1,37 +1,30 @@
 <?php
 include(__DIR__ . '/../_layouts/layout.php');
 ?>
-
-<header class="row">
-  <div class="col">
-    <h1>Listado de posts</h1>
-    <p>Aquí puedes ver todos los posts publicados</p>
+  <div class="btn-group d-flex mb-2" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-dark active">Para tí</button>
+    <button type="button" class="btn btn-dark">Los que sigues</button>
+    <button type="button" class="btn btn-dark">Right</button>
   </div>
-  <div class="col d-flex justify-content-end align-items-center">
-    <a class="btn btn-primary" href="/src/controllers/posts/form.php">Crear Post</a>
-  </div>
-</header>
-
-<main>
   <?php if (!empty($posts)): ?>
     <?php foreach ($posts as $post): ?>
-      <article class="card mb-3">
-        <div class="card-body">
-          <h2 class="card-title"><a href="/src/controllers/posts/show.php?id=<?= $post['id'] ?>"><?= $post['title'] ?></a></h2>
-          <p class="card-text"><?= $post['content'] ?></p>
-          
-          <small class="text-muted"><?= $post['created_at'] ?></small>
-          
-          <p class="card-text"><strong>By:</strong> <?= $post['user_name'] ?></p>
-          
-          <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] === $post['user_id']): ?>
-            <a class="btn btn-secondary me-3" href="/src/controllers/posts/form.php?id=<?= $post['id'] ?>">Editar</a>
-            <a class="btn btn-danger" href="/src/controllers/posts/delete.php?id=<?= $post['id'] ?>" onclick="return confirm('¿Estás seguro de que deseas eliminar este post?');">Eliminar</a>
-          <?php endif; ?>
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col p-0">
+            <img src="<?= '/assets/img/users/default.png' ?>" class="rounded-circle w-100" alt="Avatar">
+          </div>
+          <div class="col-11">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><?= $post['user_name'] ?></h5>
+                <p class="card-text"><?= $post['content'] ?></p>
+              </div>
+            </div>
+          </div>
         </div>
-      </article>
+      </div>
     <?php endforeach; ?>
   <?php else: ?>
     <p>No hay posts todavía.</p>
   <?php endif; ?>
-</main>
+</div>

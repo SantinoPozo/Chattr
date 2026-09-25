@@ -21,18 +21,39 @@ function logout() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href=<?= '/assets/css/bootstrap.min.css' ?> >
   <script src=<?= '/assets/js/bootstrap.min.js' ?>></script>
-  <title>App</title>
+  <title>Chattr</title>
 </head>
 <body>
-  <nav class="navbar bg-body-secondary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="/assets/img/php-logo.png" alt="Logo" width="45" class="d-inline-block align-text-top">
-        PDISC
-      </a>
-      <a href="/src/controllers/auth/logout.php" class="btn text-danger">Logout</a>
-    </div>
-  </nav>
-
-  <main class="container mt-3">
+  <div class="container-fluid text-bg-dark">
+    <div class="row">
+      <div id="menu-lateral" class="d-none d-sm-block col-3">
+        <div class="sticky-top text-bg-dark p-2">
+          <nav class="text-white vh-100">
+            <div>
+              <a href="/" class="text-white text-decoration-none fs-2">Chattr</a>
+            </div>
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <a href="#" class="nav-link active">Hogar</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link text-white">Explorar</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link text-white">Notificaciones</a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link text-white">Cuenta</a>
+              </li>
+            </ul>
+            <a class="btn btn-primary" href="/src/controllers/posts/form.php">Crear Post</a>
+          </nav>
+        </div>
+      </div>
+      <div id="menu-busqueda" class="d-none d-sm-block col-3 order-5">
+        <div class="sticky-top p-2">
+          <input type="text" class="form-control mb-3" placeholder="Buscar">
+        </div>
+      </div>
+      <div id="contenido-principal" class="col p-2 order-1">
     <!-- Acá se cargan los sitios, pueden modificar lo que gusten -->

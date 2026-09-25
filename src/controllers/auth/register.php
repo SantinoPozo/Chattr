@@ -35,9 +35,16 @@ try {
     'password' => $hashedPassword,
   ]);
 
+  $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+  
+  $stmt->execute([
+    'email'    => $data['email']
+  ]);
+
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
   // Cargamos $_SESSION['user'], para poder pasar al index
   $_SESSION['user'] = [
-    'id'    => $pdo->lastInsertId(),
+    'id'    => $row['id'],
     'name'  => $data['name'],
     'email' => $data['email'],
   ];

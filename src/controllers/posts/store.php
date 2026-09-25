@@ -9,6 +9,7 @@ try {
     $stmt = $pdo->prepare('INSERT INTO posts (title, content, user_id) VALUES (:title, :content, :user_id)');
 echo "test";
     try {
+        var_dump($_SESSION);
         $stmt->execute([
             'title' => $_POST['title'],
             'content' => $_POST['content'],
