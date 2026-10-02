@@ -43,7 +43,19 @@ function logout() {
                 <a href="#" class="nav-link text-white">Notificaciones</a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white">Cuenta</a>
+                <a class="btn btn-primary d-flex" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Cuenta
+                </a>
+                <div class="collapse" id="collapseExample">
+                  
+                  <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <a href="/src/controllers/auth/logout.php" class="nav-link active">Cerrar sesion</a>
+              </li>
+</ul>
+                  
+                </div>
+              </li>
               </li>
             </ul>
             <a class="btn btn-primary" href="/src/controllers/posts/form.php">Crear Post</a>

@@ -16,7 +16,7 @@ try {
     $stmt->execute();
 
     $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    file_put_contents('listado.json', json_encode($posts));
     require_once __DIR__ . '/../../views/posts/index.php';
 } catch (PDOException $e) {
     exit('Error al consultar los posts');

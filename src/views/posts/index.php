@@ -6,8 +6,10 @@ include(__DIR__ . '/../_layouts/layout.php');
     <button type="button" class="btn btn-dark">Los que sigues</button>
     <button type="button" class="btn btn-dark">Right</button>
   </div>
-  <?php if (!empty($posts)): ?>
-    <?php foreach ($posts as $post): ?>
+  <?php $archivo=file_get_contents(__DIR__ . '/../../controllers/posts/listado.json');?>
+  <?php $listposts=json_decode($archivo, true);?>
+  <?php if (!empty($listposts)): ?>
+    <?php foreach ($listposts as $post): ?>
       <div class="container mb-3">
         <div class="row">
           <div class="col p-0">
