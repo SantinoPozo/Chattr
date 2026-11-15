@@ -8,50 +8,77 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {  // Si la solicitud no es POST, vol
 }
 
 // Paso clave #2: Tomar datos -----------------------------------
-$data = [
-  'email'           => trim($_POST['email'] ?? ''), // trim(str) saca los espacios al inicio y al final
-  'name'            => trim($_POST['name'] ?? ''),
-  'password'        => $_POST['password'] ?? '',
-  'repeatPassword'  => $_POST['password'] ?? ''
-];
-
-// Validaciones básicas
-// ...
-
-// Paso clave #3: Hacer cosas ----------------------------------
-try {
-  // Validamos que el usuario no exista
+if(isset($_POST['email']) && isset($_POST['name']) && isset($_POST['password'])){
+  $data = [
+    'email'           => trim($_POST['email'] ?? ''), // trim(str) saca los espacios al inicio y al final
+    'name'            => trim($_POST['name'] ?? ''),
+    'password'        => $_POST['password'] ?? '',
+    'repeatPassword'  => $_POST['repeatpassword'] ?? ''
+  ];
+  $_SESSION['error'] = "";
+  // Validaciones básicas
   // ...
 
+  // Paso clave #3: Hacer cosas ----------------------------------
+  try {
+    // Validamos que el usuario no exista
+    // ...
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+    
+    $stmt->execute([
+      'email'    => $data['email']
+    ]);
 
-  // Hasheamos la contraseña, nunca se guarda en texto plano
-  $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if($row){
+      $_SESSION['error'] = $_SESSION['error'] . "<p>Existe una cuenta asociada con este email.</p>";
+    }
 
-  // Insertamos en DB
-  $stmt = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
-  $stmt->execute([
-    'name'     => $data['name'],
-    'email'    => $data['email'],
-    'password' => $hashedPassword,
-  ]);
+    if($data['password'] != $data['repeatPassword']){
+      $_SESSION['error'] = $_SESSION['error'] . "<p>Las contraseñas no coinciden.</p>";
+    }
+    // Hasheamos la contraseña, nunca se guarda en texto plano
+    $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
 
-  $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
-  
-  $stmt->execute([
-    'email'    => $data['email']
-  ]);
+    // Insertamos en DB
+    $stmt = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (:name, :email, :password)');
+    $stmt->execute([
+      'name'     => $data['name'],
+      'email'    => $data['email'],
+      'password' => $hashedPassword,
+    ]);
 
-  $row = $stmt->fetch(PDO::FETCH_ASSOC);
-  // Cargamos $_SESSION['user'], para poder pasar al index
-  $_SESSION['user'] = [
-    'id'    => $row['id'],
-    'name'  => $data['name'],
-    'email' => $data['email'],
-  ];
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+    
+    $stmt->execute([
+      'email'    => $data['email']
+    ]);
 
-  // Pateado para el index
-  header('Location: /src/views/index.php');
-  exit;
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Cargamos $_SESSION['user'], para poder pasar al index
+    if($_SESSION['error_reg']){
+      header('Location: /src/views/auth/register.php');
+      exit;
+    } else {
+      $_SESSION['user'] = [
+        'id'    => $row['id'],
+        'name'  => $data['name'],
+        'email' => $data['email'],
+        'pfp' => $row['profile_picture']
+      ];
+    }
+    // Pateado para el index
+    header('Location: /src/views/posts/index.php');
+    exit;
+  } catch (PDOException $e) {
+    header('Location: /src/views/auth/register.php');
+    exit;
+  }
+}
+try{
+  include('/src/views/auth/register.php');
+
 } catch (PDOException $e) {
-  exit;
+  echo $e->getMessage();
 }

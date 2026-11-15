@@ -1,9 +1,33 @@
 <?php
 include('./_layouts/layout.php');
 ?>
-
-<header>
-  <h1>¡Hola Técnica 4!</h1>
-  <p>Estamos empezando a trabajar en el proyecto</p>
-  <a href="/src/controllers/posts/index.php" class="btn">Post</a>
-</header>
+<div id="contenido-principal" class="col p-2 order-1">
+  <div class="btn-group d-flex mb-2" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-dark active">Para tí</button>
+    <button type="button" class="btn btn-dark">Los que sigues</button>
+    <button type="button" class="btn btn-dark">Right</button>
+  </div>
+  <?php $archivo=file_get_contents(__DIR__ . '/../controllers/posts/listado.json');?>
+  <?php $listposts=json_decode($archivo, true);?>
+  <?php if (!empty($listposts)): ?>
+    <?php foreach ($listposts as $post): ?>
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col p-0">
+            <img src="<?= '/assets/img/users/default.png' ?>" class="rounded-circle w-100" alt="Avatar">
+          </div>
+          <div class="col-11">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><?= $post['user_name'] ?></h5>
+                <p class="card-text"><?= $post['content'] ?></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  <?php else: ?>
+    <p>No hay posts todavía.</p>
+  <?php endif; ?>
+</div>

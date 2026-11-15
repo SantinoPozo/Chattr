@@ -2,16 +2,15 @@
 require_once __DIR__ . '/../../config/bootstrap.php';
 
 try {
-    if (!isset($_POST['title'], $_POST['content'])) {
+    if (!isset($_POST['content'])) {
         throw new Exception('Faltan datos del formulario');
     }
     
-    $stmt = $pdo->prepare('INSERT INTO posts (title, content, user_id) VALUES (:title, :content, :user_id)');
+    $stmt = $pdo->prepare('INSERT INTO posts (content, user_id) VALUES (:content, :user_id)');
 echo "test";
     try {
         var_dump($_SESSION);
         $stmt->execute([
-            'title' => $_POST['title'],
             'content' => $_POST['content'],
             'user_id' => $_SESSION['user']['id'],
         ]);
@@ -20,8 +19,8 @@ echo "test";
     }
     
 echo "test2";
-    header('Location: /src/controllers/posts/index.php');
+    header('Location: ' . $_POST['url']);
     exit;
 } catch (PDOException $e) {
-    exit('Error al crear el post');
+    exit('Error al crear el post'. $e->getMessage());
 }

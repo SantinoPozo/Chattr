@@ -2,7 +2,7 @@
 include(__DIR__ . '/../_layouts/layout.php');
 $post = $post ?? null;
 ?>
-
+<div id="contenido-principal" class="col p-2 order-1">
 <header>
   <h1><?= $post ? 'Editar Post' : 'Crear Post' ?></h1>
   <p>Completa el formulario</p>
@@ -17,15 +17,6 @@ $post = $post ?? null;
   <?php endif; ?>
 
   <div class="mb-3">
-    <input
-      class="form-control"
-      type="text"
-      name="title"
-      value="<?= $post['title'] ?? '' ?>"
-      placeholder="Título">
-  </div>
-
-  <div class="mb-3">
     <textarea
       class="form-control"
       name="content"
@@ -37,3 +28,4 @@ $post = $post ?? null;
   </button>
 
 </form>
+  </div>

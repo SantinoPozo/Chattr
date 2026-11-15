@@ -9,6 +9,7 @@ include('../_layouts/auth.layout.php');
 </div>
 
 <form action="/src/controllers/auth/login.php" method="POST">
+<?php if(!empty($_SESSION['error'])){ echo $_SESSION['error'];} ?>
   <div class="mb-3">
     <label for="email" class="form-label">E-mail</label>
     <input type="email" class="form-control" id="email" name="email" required autofocus>
@@ -20,10 +21,10 @@ include('../_layouts/auth.layout.php');
   </div>
 
   <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-</form>
 
+</form>
 <br/>
 
 <div class="text-center">
-  <p class="text-muted small">¿No tienes una cuenta? <a href="/src/views/auth/register.php">¡Registrate ahora!</a></p>
+  <p class="text-muted small">¿No tienes una cuenta? <a href="/src/controllers/auth/register.php">¡Registrate ahora!</a></p>
 </div>
