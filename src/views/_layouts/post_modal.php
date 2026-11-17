@@ -17,7 +17,7 @@
                             class="form-control"
                             name="content"
                             rows="5"
-                            placeholder="Contenido"></textarea>
+                            placeholder="¿Cómo te sientes hoy?"></textarea>
                             </div>
                             <input type="hidden" name="url" value="<?= $_SERVER['REQUEST_URI'] ?>">
                         </div>

@@ -1,16 +1,28 @@
 <div class="collapse" id="comentarios">
     <div class="card card-body">
         <div class="container-fluid">
+            <form>
             <div class="row">
+                
                 <div class="col-1 p-0 d-flex justify-content-center">
                     <img src="<?= '/assets/img/users/'. $_SESSION['user']['pfp'] ?>" class="rounded-circle" width="32px" height="32px" alt="Avatar">
                 </div>
+                
                 <div class="col">
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" name="content">
                 </div>
+                <div class="col-1 p-0">
+                    <button type="submit" class="btn link-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
+                        </svg>
+                    </button>
+                </div>
+                
             </div>
+            </form>
             <hr>
-            <div class="row comment" id="comentario-base">
+            <div class="row comment d-none" id="comentario-base">
                 <div class="col-1 p-0 d-flex justify-content-center">
                     <img src="<?= '/assets/img/users/'. $_SESSION['user']['pfp'] ?>" class="rounded-circle" width="32px" height="32px" alt="Avatar">
                 </div>
@@ -43,72 +55,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    function cargarComentarios(){
-        async function obtenerComentarios(postId){
-            let respuesta = await fetch('/src/controllers/comments/index.php?id=<?= $_SESSION['user']['id']?>&post=' + postId);
-            let listadoPosts = await respuesta.json();
-            return listadoPosts;
-        }
-        function obtenerFecha(fechaActual, fechaPost){
-            let fechaDiferencia = Math.floor((fechaActual - fechaPost)/1000);
-            let tiempo = "";
-            if (fechaDiferencia > 86399){
-                tiempo = new Date(fechaPost).toLocaleDateString();
-            } else if (fechaDiferencia > 3599){
-                tiempo = Math.floor(fechaDiferencia / 3600) + "h";
-            } else if (fechaDiferencia > 59){
-                tiempo = Math.floor(fechaDiferencia / 60) + "m";
-            } else {
-                tiempo = fechaDiferencia + "s";
-            }
-            return tiempo;
-        }
-        async function mostrarComentarios(){
-            let contenedor = document.querySelector('#contenido-principal');
-            let postId = contenedor.querySelector('').getAttribute('data-post-id');
-            let listadoComentarios = await obtenerComentarios(postId);
-            
-            if(listadoComentarios.length !== 0){
-                let fechaActual = new Date().getTime();
-                listadoComentarios.forEach(comment => {
-                    let nuevoCom = contenedor.querySelector('#comentario-base').cloneNode(true);
-                    nuevoCom.removeAttribute('id');
-
-                    nuevoCom.querySelector('a.username').setAttribute('href','/src/views/user/index.php?id=' + comment.user_id);
-                    
-                    nuevoCom.querySelector('img').setAttribute('src','/assets/img/users/' + comment.user_pfp);
-                    
-                    nuevoCom.querySelector('span.username').textContent = comment.user_name;
-                    
-                    let fechaPost = new Date(comment.created_at).getTime();
-                    let tiempo = obtenerFecha(fechaActual, fechaPost);
-
-                    nuevoCom.querySelector('span.time').textContent = tiempo;
-
-                    /*nuevoCom.querySelector('p.card-text').textContent = comment.content;
-                    postBotonCom = nuevoCom.querySelector('button.btn-comentar');
-                    postBotonCom.setAttribute('data-bs-target', "#"+post.id);
-                    nuevoCom.querySelector('.collapse').setAttribute('id', comment.id);
-
-                    postBotonLike = nuevoCom.querySelector('button.btn-like');
-                    postBotonLike.setAttribute('data-post-id', comment.id);*/
-
-                    /*if(comment.liked === "TRUE"){
-                    postBotonLike.querySelector('.heart-empty').classList.toggle("d-none");
-                    postBotonLike.querySelector('.heart-filled').classList.toggle("d-none");
-                    }
-                    postBotonLike.querySelector('.contador').textContent = post.cantLikes;
-*/
-                    contenedor.append(nuevoCom);
-                });
-            } else {
-            document.createElement('p');
-            sinPosts = "No hay posts todavia.";
-            contenedor.append(sinPosts);
-            }
-            contenedor.querySelector('#post-base').remove();
-        }
-    }
-    
-</script>

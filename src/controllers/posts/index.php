@@ -20,7 +20,11 @@ try {
                     AND l.post_id = p.id
                 ) THEN "TRUE"
                 ELSE "FALSE"
-            END AS liked
+            END AS liked,
+            (SELECT COUNT(*)
+            FROM comments c
+            WHERE c.post_id = p.id
+            ) AS cantComments
         FROM posts p
         JOIN users u ON p.user_id = u.id
         ORDER BY created_at DESC
